@@ -2,7 +2,7 @@
 
 ro_gzr_wrapper was built to provide an easy to use interface to view and manage Spaces, Looks, and Dashboards on a Looker Server. Its main use case so far has been to bulk view, download, and upload Looks and Dashboards between [two Looker servers](https://discourse.looker.com/t/git-workflow-for-lookml-promotion-across-development-staging-and-production-instances/7999).
 
-Base functions (for developer use) can be found in the gzr_core_functions.py file. These are built on top of the [gzr](https://github.com/deangelo-llooker/gzr/) command line tool. Further documentation around these core functions can be found [here.](https://github.com/ro-data/core_functions_documentation.md)
+Base functions (for developer use) can be found in the gzr_core_functions.py file. These are built on top of the [gzr](https://github.com/deangelo-llooker/gzr/) command line tool.
 
 ## Getting Started
 
