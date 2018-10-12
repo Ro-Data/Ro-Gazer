@@ -1,4 +1,4 @@
-# ro_gzr_wrapper
+# Ro-Gazer
 
 ro_gzr_wrapper was built to provide an easy to use interface to view and manage Spaces, Looks, and Dashboards on a Looker Server. Its main use case so far has been to bulk view, download, and upload Looks and Dashboards between [two Looker servers](https://discourse.looker.com/t/git-workflow-for-lookml-promotion-across-development-staging-and-production-instances/7999).
 
