@@ -40,16 +40,16 @@ class TimeValidator(Validator):
                 message='Please enter a valid number, and unit of time (e.g. \'3 days\', or \'45 minutes\').',
                 cursor_position=len(document.text))  # Move cursor to end
 
-print('\033[35m {}\033[00m' .format('\nHi, welcome to ro gzr wrapper\n'))
+print('\033[35m {}\033[00m' .format('\nHi, welcome to Ro-Gazer\n'))
 
 # Initial Connection
 def connect():
-    server = {
+    instance = {
             'type': 'input',
             'name': 'host',
-            'message': 'What Looker server would you like to connect to? \n(If you connect at https://looker.example.com then looker.example.com is the server name)\n',
+            'message': 'What Looker instance would you like to connect to? \n(If you connect at https://looker.example.com then looker.example.com is the instance name)\n',
             }
-    host = prompt(server, style = style)['host']
+    host = prompt(instance, style = style)['host']
     return host
 
 # Main Menu
@@ -58,37 +58,37 @@ def main_menu():
             'type': 'list',
             'name': 'top_options',
             'message': 'What do you want to do?',
-            'choices': ['View Spaces',
-                        'View Looks and/or Dashboards (option to filter by parameters)',
-                        'Download Looks/Dashboards from a Looker server (creating local files on your computer)',
-                        'Upload Looks/Dashboards into a Looker server (using local files on your computer)',
+            'choices': ['View spaces',
+                        'View looks and/or dashboards (option to filter by parameters)',
+                        'Download looks/dashboards from a Looker instance (creating local files on your computer)',
+                        'Upload looks/dashboards into a Looker instance (using local files on your computer)',
                         'Exit']
             }
 
     main_menu_answers = prompt(main_menu_questions, style=style)
     return main_menu_answers['top_options']
 
-# Viewing Looks/Dashboards
+# Viewing looks/dashboards
 def view_menu():
     view_menu_questions = {
             'type': 'list',
             'name': 'view_options',
-            'message': 'You have chosen to view Looks and Dashboards. Would you like to:',
-            'choices': ['View all Looks and Dashboards',
+            'message': 'You have chosen to view looks and dashboards. Would you like to:',
+            'choices': ['View all looks and dashboards',
                         'Filter what you see',
                         'Go back'],
             }
     view_menu_answers = prompt(view_menu_questions, style=style)
     return view_menu_answers['view_options']
 
-# Filtering before Viewing Looks/Dashboards
+# Filtering before Viewing looks/dashboards
 def filter_menu():
     filter_menu_questions = {
             'type': 'list',
             'name': 'filter_options',
-            'message': 'You have chosen to filter Looks and Dashboards. Filter by:',
-            'choices': ['Type (Looks, Dashboards, or Both)',
-                        'Last Updated (Only applicable for Looks)',
+            'message': 'You have chosen to filter looks and dashboards. Filter by:',
+            'choices': ['Type (looks, dashboards, or both)',
+                        'Last Updated (only applicable for looks)',
                         'Space ID',
                         'View filtered entities',
                         'Go back'],
@@ -104,7 +104,7 @@ def filter_menu_type():
             'choices': ['Looks',
                         'Dashboards',
                         'Both'],
-            'default': 'both',
+            'default': 'Both',
             'filter': lambda val: val.lower()
             }
     filter_menu_type_answers = prompt(filter_menu_type_questions, style = style)
@@ -132,15 +132,15 @@ def filter_menu_space():
     filter_menu_space_answers = prompt(filter_menu_space_questions, style = style)
     return filter_menu_space_answers['space']
 
-# Downloading Looks/Dashboards
+# Downloading looks/dashboards
 def download_menu():
     download_menu_questions = {
             'type': 'list',
             'name': 'download_options',
-            'message': 'You have chosen to download Looks and Dashboards. Would you like to:',
-            'choices': ['Provide a specific comma delimited list of Look/Dashboard IDs to download',
+            'message': 'You have chosen to download looks and dashboards. Would you like to:',
+            'choices': ['Provide a specific comma delimited list of look/dashboard IDs to download',
                         'Download based on your most recent filtered view (if you have one)',
-                        'Download all Looks/Dashboards',
+                        'Download all looks/dashboards',
                         'Go back'],
             }
 
@@ -154,7 +154,7 @@ def download_dir(host):
             'name': 'dir',
             'message': 'Where do you want to download to? '
 'Provide a directory path, and a folder will be created called %s, with two sub folders (Looks and Dashboards).\n'
-'(E.g. If you input \'~/Looker_Files/\', ~/Looker_Files/%s/Looks/ and ~/Looker_Files/%s/Dashboards/ will be created to store Look and Dashboard json files)\n' % (hostname, hostname, hostname),
+'(E.g. If you input \'~/Looker_Files/\', ~/Looker_Files/%s/Looks/ and ~/Looker_Files/%s/Dashboards/ will be created to store look and dashboard json files)\n' % (hostname, hostname, hostname),
             'filter': lambda val: ' '.join(val.split())
             }
 
@@ -178,7 +178,7 @@ def download_menu_list_looks():
     download_menu_list_looks_questions = {
             'type': 'input',
             'name': 'comma_list_looks',
-            'message': 'Please enter a comma delimited list of Look IDs (e.g. \'1,3,5,7\')',
+            'message': 'Please enter a comma delimited list of look IDs (e.g. \'1,3,5,7\')',
             'filter': lambda val: [num.strip() for num in val.split(',')] if len(val) > 0 else list(val),
             'validate': ListValidator
             }
@@ -189,7 +189,7 @@ def download_menu_list_dboards():
     download_menu_list_dboards_questions = {
             'type': 'input',
             'name': 'comma_list_dashboards',
-            'message': 'Please enter a comma delimited list of Dashboard IDs (e.g. \'1,3,5,7\')',
+            'message': 'Please enter a comma delimited list of dashboard IDs (e.g. \'1,3,5,7\')',
             'filter': lambda val: [num.strip() for num in val.split(',')] if len(val) > 0 else list(val),
             'validate': ListValidator
             }
@@ -197,13 +197,13 @@ def download_menu_list_dboards():
     return download_menu_list_dboards_answers['comma_list_dashboards']
 
 
-# Uploading Looks/Dashboards
+# Uploading looks/dashboards
 def upload_menu():
     upload_menu_questions = {
             'type': 'list',
             'name': 'upload_options',
-            'message': 'You have chosen to upload Looks and Dashboards. Would you like to:',
-            'choices': ['Provide a specific comma delimited list of Look/Dashboard IDs to upload',
+            'message': 'You have chosen to upload looks and dashboards. Would you like to:',
+            'choices': ['Provide a specific comma delimited list of look/dashboard IDs to upload',
                         'Upload everything in a particular folder',
                         'Go back'],
             }
@@ -224,12 +224,12 @@ def upload_dir(host):
     return upload_dir_answers['dir']
 
 def dest():
-    server = {
+    instance = {
             'type': 'input',
             'name': 'dest',
-            'message': 'What Looker server would you like to upload these local files to? \n(If you connect at https://looker.example.com then looker.example.com is the server name)\n',
+            'message': 'What Looker instance would you like to upload these local files to? \n(If you connect at https://looker.example.com then looker.example.com is the instance name)\n',
             }
-    dest = prompt(server, style = style)['dest']
+    dest = prompt(instance, style = style)['dest']
     return dest
 
 def upload_menu_list():
@@ -249,7 +249,7 @@ def upload_menu_list_looks():
     upload_menu_list_looks_questions = {
             'type': 'input',
             'name': 'comma_list_looks',
-            'message': 'Please enter a comma delimited list of Look IDs (e.g. \'1,3,5,7\')',
+            'message': 'Please enter a comma delimited list of look IDs (e.g. \'1,3,5,7\')',
             'filter': lambda val: [num.strip() for num in val.split(',')] if len(val) > 0 else list(val),
             'validate': ListValidator
             }
@@ -260,7 +260,7 @@ def upload_menu_list_dboards():
     upload_menu_list_dboards_questions = {
             'type': 'input',
             'name': 'comma_list_dashboards',
-            'message': 'Please enter a comma delimited list of Dashboard IDs (e.g. \'1,3,5,7\')',
+            'message': 'Please enter a comma delimited list of dashboard IDs (e.g. \'1,3,5,7\')',
             'filter': lambda val: [num.strip() for num in val.split(',')] if len(val) > 0 else list(val),
             'validate': ListValidator
             }
@@ -277,10 +277,10 @@ def user_flow(host):
     while True:
         main_menu_choice = main_menu()
         #Views
-        if (main_menu_choice == 'View Looks and/or Dashboards (option to filter by parameters)'):
+        if (main_menu_choice == 'View looks and/or dashboards (option to filter by parameters)'):
             while True:
                 view_menu_choice = view_menu()
-                if view_menu_choice == 'View all Looks and Dashboards':
+                if view_menu_choice == 'View all looks and dashboards':
                     gzr_core_functions.print_entities(gzr_core_functions.get_entities(host, space = space_id_list))
                 elif view_menu_choice == 'Filter what you see':
                     type = 'both'
@@ -288,9 +288,9 @@ def user_flow(host):
                     spaces = space_id_list
                     while True:
                         filter_menu_choice = filter_menu()
-                        if filter_menu_choice == 'Type (Looks, Dashboards, or Both)':
+                        if filter_menu_choice == 'Type (looks, dashboards, or both)':
                             type = filter_menu_type()
-                        elif filter_menu_choice == 'Last Updated (Only applicable for Looks)':
+                        elif filter_menu_choice == 'Last Updated (Only applicable for looks)':
                             last_updated = filter_menu_last_updated()
                         elif filter_menu_choice == 'Space ID':
                             spaces = filter_menu_space()
@@ -305,12 +305,12 @@ def user_flow(host):
                     break
 
         #Downloading
-        elif (main_menu_choice == 'Download Looks/Dashboards from a Looker server (creating local files on your computer)'):
+        elif (main_menu_choice == 'Download looks/dashboards from a Looker instance (creating local files on your computer)'):
                 dir = download_dir(host)
                 print(dir)
                 while True:
                     download_menu_choice = download_menu()
-                    if download_menu_choice == 'Provide a specific comma delimited list of Look/Dashboard IDs to download':
+                    if download_menu_choice == 'Provide a specific comma delimited list of look/dashboard IDs to download':
                         look_list = []
                         dboard_list = []
                         while True:
@@ -325,21 +325,21 @@ def user_flow(host):
                                 break
                     elif download_menu_choice == 'Download based on your most recent filtered view (if you have one)':
                         gzr_core_functions.download_entities(host, dir, list(filtered_entities['looks'].keys()), list(filtered_entities['dashboards'].keys()))
-                    elif download_menu_choice == 'Download all Looks/Dashboards':
+                    elif download_menu_choice == 'Download all looks/dashboards':
                         all_entities = gzr_core_functions.get_entities(host, space = space_id_list)
                         gzr_core_functions.download_entities(host, dir, list(all_entities['looks'].keys()), list(all_entities['dashboards'].keys()))
                     elif download_menu_choice == 'Go back':
                         break
 
         #Uploading
-        elif (main_menu_choice == 'Upload Looks/Dashboards into a Looker server (using local files on your computer)'):
+        elif (main_menu_choice == 'Upload looks/dashboards into a Looker instance (using local files on your computer)'):
                 dir = upload_dir(host)
-                dest_server = dest()
-                return_code = gzr_core_functions.test_connection(dest_server)
+                dest_instance = dest()
+                return_code = gzr_core_functions.test_connection(dest_instance)
                 if return_code == 0:
                     while True:
                         upload_menu_choice = upload_menu()
-                        if upload_menu_choice == 'Provide a specific comma delimited list of Look/Dashboard IDs to upload':
+                        if upload_menu_choice == 'Provide a specific comma delimited list of look/dashboard IDs to upload':
                             upload_look_list = []
                             upload_dboard_list = []
                             while True:
@@ -349,22 +349,22 @@ def user_flow(host):
                                 if upload_menu_list_choice == 'Dashboard IDs':
                                     upload_dboard_list = upload_menu_list_dboards()
                                 if upload_menu_list_choice == 'Upload provided list of entities':
-                                    gzr_core_functions.upload_entities(dest_server, dir, look_list = upload_look_list, dboard_list = upload_dboard_list)
+                                    gzr_core_functions.upload_entities(dest_instance, dir, look_list = upload_look_list, dboard_list = upload_dboard_list)
                                 if upload_menu_list_choice == 'Go back':
                                     break
                         elif upload_menu_choice == 'Upload everything in a particular folder':
-                            gzr_core_functions.upload_entities(dest_server, dir, look_list = ['all'], dboard_list = ['all'])
+                            gzr_core_functions.upload_entities(dest_instance, dir, look_list = ['all'], dboard_list = ['all'])
                         elif upload_menu_choice == 'Go back':
                             break
                 else:
                     print('\033[31m {}\033[00m'.format('\nConnection ERROR: ') + 'Please check your credentials in your ~/.netrc file in your home directory.'
                     'Look to' + '\033[34m {}\033[00m'.format('https://github.com/deangelo-llooker/gzr ') + 'under \'Storing Credentials\' for additional information on setting that up.\n')
-        #Spaces
-        elif (main_menu_choice == 'View Spaces'):
+        #spaces
+        elif (main_menu_choice == 'View spaces'):
             gzr_core_functions.show_spaces(host)
         #Exit
         elif (main_menu_choice == 'Exit'):
-            print('\033[35m {}\033[00m' .format('\nBye! Thanks for using ro gzr wrapper!'))
+            print('\033[35m {}\033[00m' .format('\nBye! Thanks for using Ro-Gazer!'))
             sys.exit()
 
 host = connect()

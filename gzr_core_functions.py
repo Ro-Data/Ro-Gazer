@@ -1,6 +1,6 @@
 import subprocess
 from os import listdir
-from os.path import isfile, join, getmtime
+from os.path import isfile, join, getmtime, expanduser
 import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -33,7 +33,7 @@ def get_space_id_list(host):
 
 def get_entities(host, output_type = 'both', time_since_last_update = '99 years', space = []):
     '''
-    In general, Hosted Looker servers will utilize UTC, so date comparisons are done in that timezone.
+    In general, hosted Looker servers will utilize UTC, so date comparisons are done in that timezone.
     If your Looker server doesn't utilize UTC, time filter may be off by a few hours.
     '''
 
@@ -76,7 +76,7 @@ def get_entities(host, output_type = 'both', time_since_last_update = '99 years'
                 entity_dict['dashboards'][dashboard['id']] = dashboard_dict
             else:
                 pass
-        print('Got info from %s out of %s specified Spaces ' % (int(space_num)+1, len(space)))
+        print('Got info from %s out of %s specified spaces ' % (int(space_num)+1, len(space)))
 
     return entity_dict
 
@@ -107,6 +107,7 @@ def print_entities(entity_dict):
 def download_entities(host, dir, look_list, dboard_list):
 
     #create directories to store backups
+    dir = expanduser(dir)
     hostname = host.split('.')[0]
     filepath = dir + '/' + hostname
     subprocess.run(['mkdir', '-p', filepath +'/Looks'])
@@ -183,6 +184,7 @@ def download_entities(host, dir, look_list, dboard_list):
     return None
 
 def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
+    dir = expanduser(dir)
     skip_warnings = False
     looks_uploaded = 0
     dboards_uploaded = 0
