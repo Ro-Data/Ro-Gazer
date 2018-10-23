@@ -226,7 +226,7 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
                 subprocess.run(['gzr', 'look', 'import', filepath, str(local_look_dict['space_id']), '--host=' + dest, '--force'])
                 looks_uploaded += 1
                 if looks_uploaded % 5 == 0:
-                    print('Uploaded %s out of %s total Looks' % (looks_uploaded, len(look_list)))
+                    print('Uploaded %s out of %s total Looks' % (looks_uploaded, len(looks_to_upload)))
             elif local_look_dict['name'] in existing_look_names:
                 while True:
                     # This is necessary because I want to get the last_updated on the server for the look with the same name.
@@ -245,7 +245,7 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
                         subprocess.run(['gzr', 'look', 'import', filepath, str(local_look_dict['space_id']), '--host=' + dest, '--force'])
                         looks_uploaded +=1
                         if looks_uploaded % 5 == 0:
-                            print('Uploaded %s out of %s total Looks' % (looks_uploaded, len(look_list)))
+                            print('Uploaded %s out of %s total Looks' % (looks_uploaded, len(looks_to_upload)))
                         break
                     elif overwrite == 'n':
                         break
@@ -253,7 +253,7 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
             print('%s does not exist in the specified directory. Skipping this file.' % (looks_to_upload[filenum]))
             continue
 
-    print('%s/%s Looks uploaded to %s' % (looks_uploaded, len(look_list), dest))
+    print('%s/%s Looks uploaded to %s' % (looks_uploaded, len(looks_to_upload), dest))
 
     #to upload dashboards
     for filenum in range(len(dboards_to_upload)):
@@ -281,7 +281,7 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
                 subprocess.run(['gzr', 'dashboard', 'import', filepath, str(local_dboard_dict['space_id']), '--host=' + dest, '--force'])
                 dboards_uploaded += 1
                 if dboards_uploaded % 5 == 0:
-                    print('Uploaded %s out of %s total Dashboards' % (dboards_uploaded, len(dboard_list)))
+                    print('Uploaded %s out of %s total Dashboards' % (dboards_uploaded, len(dboards_to_upload)))
             elif local_dboard_dict['name'] in existing_dboard_names:
                 #########
                 while True:
@@ -293,7 +293,7 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
                         subprocess.run(['gzr', 'dashboard', 'import', filepath, str(local_dboard_dict['space_id']), '--host=' + dest, '--force'])
                         dboards_uploaded +=1
                         if dboards_uploaded % 5 == 0:
-                            print('Uploaded %s out of %s total Dashboards' % (dboards_uploaded, len(dboard_list)))
+                            print('Uploaded %s out of %s total Dashboards' % (dboards_uploaded, len(dboards_to_upload)))
                         break
                     elif overwrite == 'n':
                         break
@@ -301,4 +301,4 @@ def upload_entities(dest, dir, time = 'none', look_list = [], dboard_list = []):
             print('%s does not exist in the specified directory. Skipping this file.' % (dboards_to_upload[filenum]))
             continue
 
-    print('%s/%s Dashboards uploaded to %s' % (dboards_uploaded, len(dboard_list), dest))
+    print('%s/%s Dashboards uploaded to %s' % (dboards_uploaded, len(dboards_to_upload), dest))
